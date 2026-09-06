@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Local application-managed runtimes and tools (Installed locally on first run)
+tools/*
+!tools/.gitkeep
+runtime/*
+!runtime/.gitkeep
+dependencies/*
+!dependencies/.gitkeep
+
+# Caches and temporary files
+cache/*
+!cache/.gitkeep
+temp/*
+!temp/.gitkeep
+logs/*
+!logs/.gitkeep
+*.tmp
+*.log
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec
+
+# User local settings & install state
+config/install_state.json
+config/settings.json
+
+# Environment / local configs
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini

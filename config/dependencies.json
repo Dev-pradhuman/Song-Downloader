@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "dependencies": {
+    "ffmpeg": {
+      "name": "FFmpeg",
+      "version": "b4.4",
+      "category": "tools",
+      "description": "Audio conversion and metadata tagging engine",
+      "platforms": {
+        "windows": {
+          "amd64": {
+            "url": "https://github.com/eugeneware/ffmpeg-static/releases/download/b4.4/win32-x64",
+            "type": "binary",
+            "relative_path": "tools/ffmpeg/ffmpeg.exe"
+          }
+        },
+        "linux": {
+          "x86_64": {
+            "url": "https://github.com/eugeneware/ffmpeg-static/releases/download/b4.4/linux-x64",
+            "type": "binary",
+            "relative_path": "tools/ffmpeg/ffmpeg"
+          }
+        },
+        "darwin": {
+          "x86_64": {
+            "url": "https://github.com/eugeneware/ffmpeg-static/releases/download/b4.4/darwin-x64",
+            "type": "binary",
+            "relative_path": "tools/ffmpeg/ffmpeg"
+          },
+          "arm64": {
+            "url": "https://github.com/eugeneware/ffmpeg-static/releases/download/b4.4/darwin-arm64",
+            "type": "binary",
+            "relative_path": "tools/ffmpeg/ffmpeg"
+          }
+        }
+      },
+      "verify_command": ["{path}", "-version"]
+    },
+    "deno": {
+      "name": "Deno",
+      "version": "1.45.5",
+      "category": "runtime",
+      "description": "JavaScript runtime required for modern streaming platform extraction",
+      "platforms": {
+        "windows": {
+          "amd64": {
+            "url": "https://github.com/denoland/deno/releases/download/v1.45.5/deno-x86_64-pc-windows-msvc.zip",
+            "type": "zip",
+            "binary_name": "deno.exe",
+            "relative_path": "runtime/deno/deno.exe"
+          }
+        },
+        "linux": {
+          "x86_64": {
+            "url": "https://github.com/denoland/deno/releases/download/v1.45.5/deno-x86_64-unknown-linux-gnu.zip",
+            "type": "zip",
+            "binary_name": "deno",
+            "relative_path": "runtime/deno/deno"
+          }
+        },
+        "darwin": {
+          "x86_64": {
+            "url": "https://github.com/denoland/deno/releases/download/v1.45.5/deno-x86_64-apple-darwin.zip",
+            "type": "zip",
+            "binary_name": "deno",
+            "relative_path": "runtime/deno/deno"
+          },
+          "arm64": {
+            "url": "https://github.com/denoland/deno/releases/download/v1.45.5/deno-aarch64-apple-darwin.zip",
+            "type": "zip",
+            "binary_name": "deno",
+            "relative_path": "runtime/deno/deno"
+          }
+        }
+      },
+      "verify_command": ["{path}", "--version"]
+    },
+    "python_packages": {
+      "name": "Downloader Engine Libraries",
+      "category": "libraries",
+      "description": "Python modules for Spotify metadata extraction and media streaming",
+      "packages": [
+        "spotdl>=4.5.2",
+        "yt-dlp>=2026.8.19",
+        "customtkinter>=5.2.0",
+        "pillow>=10.0.0",
+        "requests>=2.31.0"
+      ],
+      "verify_modules": ["spotdl", "yt_dlp", "customtkinter", "PIL", "requests"]
+    }
+  }
+}

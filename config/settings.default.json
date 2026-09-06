@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "download_directory": "",
+  "audio_format": "mp3",
+  "bitrate": "auto",
+  "threads": 4,
+  "theme": "dark"
+}
