@@ -6,6 +6,25 @@ A clean, modern, portable desktop application for downloading Spotify songs, alb
 
 ---
 
+## Why Choose Song Downloader?
+
+Most command-line and third-party media downloaders create headaches for everyday users:
+* ❌ They demand manual installation of FFmpeg, Deno, and package managers into your machine's global environment.
+* ❌ They pollute global folders (`%APPDATA%`, `~/.cache`, `~/.deno`) and system PATHs with gigabytes of untracked files.
+* ❌ They force you to download entire 50-track albums or playlists just to get the 2 or 3 songs you actually like.
+* ❌ Uninstalling them leaves abandoned dependencies scattered all over your hard drive.
+
+### Here is Why Song Downloader is Better:
+
+* **🛡️ 100% Isolated & Truly Portable**: All runtimes (FFmpeg, Deno), caches, and temp files live exclusively inside the application directory. No global system pollution, no registry tampering, no PATH modifications. To uninstall, simply delete the folder.
+* **🎯 True Selective Downloading**: Paste an album or playlist link, and Song Downloader previews the full tracklist and durations first without downloading media. You pick exactly which songs you want via checkboxes. Unselected tracks are never downloaded.
+* **⚡ One-Click Automated Setup**: No need to open PowerShell, install winget/chocolatey, or configure command-line tools. Click **Install Dependencies** on first launch, and the app sets up its own isolated environment automatically.
+* **🏷️ Studio-Grade Metadata & Artwork**: Every track is automatically converted and tagged with official high-resolution album artwork, artist credentials, album names, year, and track numbers.
+* **🚀 Multi-Threaded Performance**: Downloads multiple audio streams concurrently with optimized audio conversion and modern YouTube stream signature deciphering.
+* **📂 User-First File Control**: Your downloaded songs go wherever you want (defaults to your standard OS `Downloads` folder), keeping your personal music library neatly separated from application files.
+
+---
+
 ## Features
 
 * **Single Song Downloading**: Paste any Spotify song URL to fetch rich metadata (cover, title, artist, album, duration) and download it cleanly tagged.
