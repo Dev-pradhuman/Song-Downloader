@@ -42,3 +42,6 @@ ENV/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Local coding-assistant state
+.serena/
