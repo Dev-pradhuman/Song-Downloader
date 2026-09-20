@@ -16,6 +16,32 @@ if str(root_dir) not in sys.path:
 
 from src.core.paths import ensure_app_dirs, get_logs_dir
 from src.core.env_manager import apply_isolation_to_current_process
+from src.core.spotdl_process import WORKER_FLAG
+
+
+def run_spotdl_worker() -> int:
+    """Run spotDL when the frozen executable is re-entered as a subprocess."""
+    # Windowed PyInstaller applications may expose None for standard streams.
+    # Prefer inherited subprocess pipes and fall back to the null device.
+    for name, fd in (("stdout", 1), ("stderr", 2)):
+        if getattr(sys, name) is None:
+            try:
+                stream = os.fdopen(
+                    os.dup(fd), "w", buffering=1, encoding="utf-8", errors="replace"
+                )
+            except OSError:
+                stream = open(os.devnull, "w", encoding="utf-8")
+            setattr(sys, name, stream)
+
+    sys.argv = [sys.argv[0], *sys.argv[2:]]
+    apply_isolation_to_current_process()
+
+    try:
+        from spotdl import console_entry_point
+        console_entry_point()
+        return 0
+    except SystemExit as exc:
+        return exc.code if isinstance(exc.code, int) else 1
 
 
 def main():
@@ -53,4 +79,6 @@ def main():
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == WORKER_FLAG:
+        raise SystemExit(run_spotdl_worker())
     main()

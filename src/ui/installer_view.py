@@ -161,17 +161,24 @@ class InstallerView(ctk.CTkFrame):
             for k, _ in self.steps:
                 self.after(0, self.set_step_status, k, "done")
             self.after(0, self.progress_bar.set, 1.0)
-            self.after(0, self.status_lbl.configure, {"text": "Song Downloader is ready.", "text_color": ACCENT_GREEN})
+            self.after(0, lambda: self.status_lbl.configure(
+                text="Song Downloader is ready.", text_color=ACCENT_GREEN
+            ))
             self.after(0, self.log_box.append, "All components verified successfully.")
 
             # Switch action button to Continue
             self.after(0, self._show_continue_button)
 
         except Exception as e:
-            self.after(0, self.status_lbl.configure, {"text": f"Error: {e}", "text_color": ERROR_RED})
-            self.after(0, self.log_box.append, f"Installation failed: {e}")
-            self.after(0, self.action_btn.configure, {"state": "normal", "text": "Retry Installation"})
-            self.after(0, self.exit_btn.configure, {"state": "normal"})
+            error_message = str(e)
+            self.after(0, lambda msg=error_message: self.status_lbl.configure(
+                text=f"Error: {msg}", text_color=ERROR_RED
+            ))
+            self.after(0, self.log_box.append, f"Installation failed: {error_message}")
+            self.after(0, lambda: self.action_btn.configure(
+                state="normal", text="Retry Installation"
+            ))
+            self.after(0, lambda: self.exit_btn.configure(state="normal"))
 
     def _on_step_change(self, step_name: str):
         self.after(0, self.log_box.append, step_name)
@@ -192,7 +199,9 @@ class InstallerView(ctk.CTkFrame):
 
     def _on_download_progress(self, label: str, fraction: float):
         self.after(0, self.progress_bar.set, fraction)
-        self.after(0, self.status_lbl.configure, {"text": f"{label} ({int(fraction * 100)}%)"})
+        self.after(0, lambda: self.status_lbl.configure(
+            text=f"{label} ({int(fraction * 100)}%)"
+        ))
 
     def _show_continue_button(self):
         self.action_btn.configure(

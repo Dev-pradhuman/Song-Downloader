@@ -28,8 +28,8 @@ class ConfigManager:
             "version": 1,
             "download_directory": str(get_default_download_dir()),
             "audio_format": "mp3",
-            "bitrate": "auto",
-            "threads": 4,
+            "bitrate": "320k",
+            "threads": 8,
             "theme": "dark"
         }
 

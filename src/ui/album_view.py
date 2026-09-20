@@ -291,29 +291,35 @@ class AlbumView(ctk.CTkFrame):
         success = self.engine.download_tracks(
             track_urls=track_urls,
             output_dir=dest_dir,
-            threads=self.config_mgr.get("threads", 4),
+            threads=self.config_mgr.get("threads", 8),
+            audio_format=self.config_mgr.get("audio_format", "mp3"),
+            bitrate=self.config_mgr.get("bitrate", "320k"),
             log_callback=lambda msg: self.after(0, self.log_box.append, msg),
             progress_callback=lambda curr, total, msg: self.after(0, self._on_progress, curr, total, msg),
         )
 
         if success:
             self.after(0, self.progress_bar.set, 1.0)
-            self.after(0, self.status_lbl.configure, {
-                "text": f"Successfully downloaded {len(tracks)} tracks!",
-                "text_color": ACCENT_GREEN
-            })
+            self.after(0, lambda: self.status_lbl.configure(
+                text=f"Successfully downloaded {len(tracks)} tracks!",
+                text_color=ACCENT_GREEN,
+            ))
             self.after(0, self.complete_frame.grid)
-            self.after(0, self.download_btn.configure, {"text": "Download Completed", "state": "disabled"})
+            self.after(0, lambda: self.download_btn.configure(
+                text="Download Completed", state="disabled"
+            ))
         else:
-            self.after(0, self.status_lbl.configure, {
-                "text": "Finished with errors or partial downloads.",
-                "text_color": ERROR_RED
-            })
-            self.after(0, self.download_btn.configure, {"state": "normal", "text": "Retry Download"})
+            self.after(0, lambda: self.status_lbl.configure(
+                text="Finished with errors or partial downloads.",
+                text_color=ERROR_RED,
+            ))
+            self.after(0, lambda: self.download_btn.configure(
+                state="normal", text="Retry Download"
+            ))
 
-        self.after(0, self.back_btn.configure, {"state": "normal"})
-        self.after(0, self.select_all_btn.configure, {"state": "normal"})
-        self.after(0, self.deselect_all_btn.configure, {"state": "normal"})
+        self.after(0, lambda: self.back_btn.configure(state="normal"))
+        self.after(0, lambda: self.select_all_btn.configure(state="normal"))
+        self.after(0, lambda: self.deselect_all_btn.configure(state="normal"))
 
     def _on_progress(self, curr: int, total: int, msg: str):
         self.progress_bar.set(1.0 if total == 0 else curr / total)

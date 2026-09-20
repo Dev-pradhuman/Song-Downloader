@@ -25,7 +25,14 @@ set "SPOTDL_CACHE_DIR=%APP_DIR%cache\spotdl"
 set "TEMP=%APP_DIR%temp"
 set "TMP=%APP_DIR%temp"
 
-:: Determine Python executable
+:: Prefer the packaged executable; it does not require system Python.
+if exist "%APP_DIR%Song Downloader.exe" (
+    echo Launching Song Downloader executable...
+    start "" "%APP_DIR%Song Downloader.exe"
+    exit /b 0
+)
+
+:: Determine Python executable for source-mode fallback
 set "PYTHON_EXE="
 
 :: Check if local virtual environment exists
@@ -50,13 +57,6 @@ if "%PYTHON_EXE%"=="" (
     echo Please install Python 3.9+ or run "Song Downloader.exe" directly.
     pause
     exit /b 1
-)
-
-:: Check if Song Downloader.exe exists
-if exist "%APP_DIR%Song Downloader.exe" (
-    echo Launching Song Downloader executable...
-    start "" "%APP_DIR%Song Downloader.exe"
-    exit /b 0
 )
 
 :: Launch via Python script

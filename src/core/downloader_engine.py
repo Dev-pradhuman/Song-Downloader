@@ -14,6 +14,7 @@ from typing import Callable, List, Optional
 from .paths import get_logs_dir, ensure_app_dirs
 from .env_manager import get_isolated_env
 from .sanitizer import sanitize_filename
+from .spotdl_process import build_spotdl_command
 
 
 class DownloaderEngine:
@@ -46,7 +47,9 @@ class DownloaderEngine:
         self,
         track_urls: List[str],
         output_dir: Path,
-        threads: int = 4,
+        threads: int = 8,
+        audio_format: str = "mp3",
+        bitrate: str = "320k",
         log_callback: Optional[Callable[[str], None]] = None,
         progress_callback: Optional[Callable[[int, int, str], None]] = None,
     ) -> bool:
@@ -72,17 +75,27 @@ class DownloaderEngine:
             log_callback(f"Downloading {total_tracks} selected track(s)...")
 
         env = get_isolated_env()
+        threads = max(1, min(int(threads), 16))
 
         # Build spotdl download command
-        cmd = [
-            sys.executable,
-            "-m",
-            "spotdl",
+        cmd = build_spotdl_command(
             "download",
             *track_urls,
             "--threads",
             str(threads),
-        ]
+            "--audio",
+            "youtube-music",
+            "youtube",
+            "--format",
+            audio_format,
+            "--bitrate",
+            bitrate,
+            "--yt-dlp-args=--concurrent-fragments 4 --retries 10 --fragment-retries 10",
+            "--overwrite",
+            "skip",
+            "--preload",
+            "--print-errors",
+        )
 
         try:
             self._current_process = subprocess.Popen(

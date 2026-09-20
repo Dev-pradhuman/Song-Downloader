@@ -15,6 +15,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from .paths import get_temp_dir, get_logs_dir
 from .env_manager import get_isolated_env
+from .spotdl_process import build_spotdl_command
 
 
 def format_duration(seconds: int) -> str:
@@ -105,7 +106,7 @@ def fetch_metadata(url: str, timeout: int = 300) -> CollectionInfo:
 
     # Run spotdl save to extract metadata into a JSON file
     env = get_isolated_env()
-    cmd = [sys.executable, "-m", "spotdl", "save", url, "--save-file", str(temp_file)]
+    cmd = build_spotdl_command("save", url, "--save-file", str(temp_file))
 
     try:
         proc = subprocess.run(

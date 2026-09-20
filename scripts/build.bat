@@ -37,6 +37,8 @@ python -m PyInstaller ^
     --collect-all customtkinter ^
     --collect-all spotdl ^
     --collect-all yt_dlp ^
+    --collect-all pykakasi ^
+    --collect-all ytmusicapi ^
     --collect-submodules src ^
     --add-data "config;config" ^
     --paths "src" ^

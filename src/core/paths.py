@@ -23,6 +23,12 @@ def get_app_root() -> Path:
         return Path(__file__).resolve().parent.parent.parent
 
 
+def get_bundled_resource_root() -> Path:
+    """Return PyInstaller's resource directory, or the source project root."""
+    bundle_dir = getattr(sys, "_MEIPASS", None)
+    return Path(bundle_dir).resolve() if bundle_dir else get_app_root()
+
+
 def get_tools_dir() -> Path:
     """Return tools directory for locally managed binaries (e.g. ffmpeg)."""
     return get_app_root() / "tools"
@@ -65,7 +71,10 @@ def get_assets_dir() -> Path:
 
 def get_dependencies_manifest_path() -> Path:
     """Return path to dependencies manifest."""
-    return get_config_dir() / "dependencies.json"
+    external_path = get_config_dir() / "dependencies.json"
+    if external_path.exists():
+        return external_path
+    return get_bundled_resource_root() / "config" / "dependencies.json"
 
 
 def get_install_state_path() -> Path:
@@ -80,7 +89,10 @@ def get_settings_path() -> Path:
 
 def get_default_settings_path() -> Path:
     """Return path to default settings JSON."""
-    return get_config_dir() / "settings.default.json"
+    external_path = get_config_dir() / "settings.default.json"
+    if external_path.exists():
+        return external_path
+    return get_bundled_resource_root() / "config" / "settings.default.json"
 
 
 def get_default_download_dir() -> Path:

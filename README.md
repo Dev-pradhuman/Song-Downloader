@@ -41,7 +41,7 @@ Most command-line and third-party media downloaders create headaches for everyda
 
 1. **Download or Clone** this repository:
    ```bash
-   git clone https://github.com/your-username/Song-Downloader.git
+   git clone https://github.com/Dev-pradhuman/Song-Downloader.git
    cd "Song Downloader"
    ```
 2. **Launch the application**:

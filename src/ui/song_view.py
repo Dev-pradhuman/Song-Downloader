@@ -194,7 +194,9 @@ class SongView(ctk.CTkFrame):
         success = self.engine.download_tracks(
             track_urls=[self.track.url],
             output_dir=dest_dir,
-            threads=self.config_mgr.get("threads", 4),
+            threads=self.config_mgr.get("threads", 8),
+            audio_format=self.config_mgr.get("audio_format", "mp3"),
+            bitrate=self.config_mgr.get("bitrate", "320k"),
             log_callback=lambda msg: self.after(0, self.log_box.append, msg),
             progress_callback=lambda curr, total, msg: self.after(0, self._on_progress, curr, total, msg),
         )
@@ -203,14 +205,22 @@ class SongView(ctk.CTkFrame):
 
         if success:
             self.after(0, self.progress_bar.set, 1.0)
-            self.after(0, self.status_lbl.configure, {"text": "Download complete!", "text_color": ACCENT_GREEN})
+            self.after(0, lambda: self.status_lbl.configure(
+                text="Download complete!", text_color=ACCENT_GREEN
+            ))
             self.after(0, self.complete_frame.grid)
-            self.after(0, self.download_btn.configure, {"text": "Downloaded", "state": "disabled"})
+            self.after(0, lambda: self.download_btn.configure(
+                text="Downloaded", state="disabled"
+            ))
         else:
-            self.after(0, self.status_lbl.configure, {"text": "Download failed or finished with errors.", "text_color": ERROR_RED})
-            self.after(0, self.download_btn.configure, {"state": "normal", "text": "Retry Download"})
+            self.after(0, lambda: self.status_lbl.configure(
+                text="Download failed or finished with errors.", text_color=ERROR_RED
+            ))
+            self.after(0, lambda: self.download_btn.configure(
+                state="normal", text="Retry Download"
+            ))
 
-        self.after(0, self.back_btn.configure, {"state": "normal"})
+        self.after(0, lambda: self.back_btn.configure(state="normal"))
 
     def _on_progress(self, curr: int, total: int, msg: str):
         self.progress_bar.set(1.0 if total == 0 else curr / total)
